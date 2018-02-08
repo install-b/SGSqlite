@@ -31,6 +31,7 @@
     }];
 }
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    NSLog(@"------touchesBegan:--------");
     [self.sqlite inSqliteAsync:^(SGSqlite *sqlite) {
         SGResultSet * rezultSet = [sqlite executeQuery:@"select * from sg_test_table where age > ?",@15];
         
@@ -43,6 +44,13 @@
         [rezultSet close];
     }];
 }
+
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    NSLog(@"touchesCancelled");
+    [[self sqlite] close];
+    self.sqlite = nil;
+}
+
 - (NSArray <NSDictionary *>*)dataSource {
     
     return @[

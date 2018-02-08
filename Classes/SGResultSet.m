@@ -19,6 +19,9 @@
 /** 索引值 与 列行 映射 */
 @property (nonatomic,strong)  NSDictionary *colunNameAndIndexMap;
 
+
+/** <#des#> */
+@property(nonatomic,assign,getter=isClosed) BOOL closed;
 @end
 
 @implementation SGResultSet
@@ -43,6 +46,7 @@
 
 
 - (BOOL)next {
+    
     if (_pStmt) {
         int rc = sqlite3_step(_pStmt);
         
@@ -78,10 +82,14 @@
 }
 
 - (void)close {
+    if (self.isClosed) {
+        return;
+    }
     if (_pStmt) {
         sqlite3_reset(_pStmt);
         sqlite3_finalize(_pStmt);
         _pStmt = 0x00;
+        self.closed = YES;
     }
 }
 

@@ -157,7 +157,7 @@ static int sqlite_bindObject(id obj,int idx,sqlite3_stmt * pStmt) {
                 triedFinalizingOpenStatements = YES;
                 sqlite3_stmt *pStmt;
                 while ((pStmt = sqlite3_next_stmt(_sqliteDB, nil)) != 0) {
-                    NSLog(@"Closing leaked statement");
+                    NSLog(@"Closing leaked statement %p",&pStmt);
                     sqlite3_finalize(pStmt);
                     retry = YES;
                 }
@@ -203,7 +203,6 @@ static int sqlite_bindObject(id obj,int idx,sqlite3_stmt * pStmt) {
         return NO;
     }
     
-    
     int queryCount = sqlite3_bind_parameter_count(pStmt);
     
     id obj;
@@ -212,23 +211,22 @@ static int sqlite_bindObject(id obj,int idx,sqlite3_stmt * pStmt) {
     va_list args;
     va_start(args, sql);
     while (idx < queryCount) {
+        // 取参数
         obj = va_arg(args, id);
-        idx++;
         // 拼接 参数
-        sqlite_bindObject(obj, idx, pStmt);
+        sqlite_bindObject(obj, ++idx, pStmt);
     }
     va_end(args);
 
-
+    
     if (idx != queryCount) {
         // 参数错误
         NSLog(@"executeUpdate- Error: the bind count (%d) is not correct for the # of variables in the query (%d) (%@) (executeUpdate)", idx, queryCount, sql);
-        
         sqlite3_finalize(pStmt);
-       
         return NO;
     }
-
+    
+    // 执行申SQL
     rc = sqlite3_step(pStmt);
     
     if (rc != SQLITE_DONE && rc != SQLITE_OK) {
@@ -248,7 +246,6 @@ static int sqlite_bindObject(id obj,int idx,sqlite3_stmt * pStmt) {
    
     int rc                  = 0x00;
     sqlite3_stmt *pStmt     = 0x00;
-    
     
     rc = sqlite3_prepare_v2(_sqliteDB, [sql UTF8String], -1, &pStmt, 0);
     
@@ -270,10 +267,8 @@ static int sqlite_bindObject(id obj,int idx,sqlite3_stmt * pStmt) {
     while (idx < queryCount) {
         // 取值
         obj = va_arg(args, id);
-        // 索引值+1
-        idx++;
         // 拼接 参数
-        sqlite_bindObject(obj, idx, pStmt);
+        sqlite_bindObject(obj, ++idx, pStmt);
     }
     va_end(args);
     
@@ -338,4 +333,3 @@ static int sqlite_bindObject(id obj,int idx,sqlite3_stmt * pStmt) {
 }
 
 @end;
-

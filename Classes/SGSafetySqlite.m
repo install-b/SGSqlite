@@ -15,7 +15,7 @@
 @property (nonatomic,strong)SGSqlite * sqlite;
 
 /** sqlite op queue */
-@property(nonatomic,strong,readonly) dispatch_queue_t safetyQueue;
+@property(nonatomic,readonly) dispatch_queue_t safetyQueue;
 
 @end
 
@@ -60,10 +60,11 @@
     if (!_sqlite) {
         return;
     }
+    typeof(self) weakSelf = self;
     dispatch_sync(_safetyQueue, ^{
         // close sqlite
-        [_sqlite  closeSqlite];
-        _sqlite = nil;
+        [weakSelf->_sqlite  closeSqlite];
+        weakSelf->_sqlite = nil;
     });
 }
 
