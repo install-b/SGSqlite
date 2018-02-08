@@ -8,6 +8,7 @@
 
 #import "SGSqlite.h"
 #import <sqlite3.h>
+#import "SGResultSet.h"
 
 
 // 拼接参数 函数

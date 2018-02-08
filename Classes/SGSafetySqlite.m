@@ -1,6 +1,6 @@
 //
-//  LYSafetySqlite.m
-//  LYSqlite
+//  SGSafetySqlite.m
+//  SGSqlite
 //
 //  Created by Shangen Zhang on 2018/1/5.
 //  Copyright © 2018年 Shangen Zhang. All rights reserved.
@@ -10,11 +10,10 @@
 
 
 @interface SGSafetySqlite ()
-{
-    LYSqlite * _sqlite;
-}
+
 /** sqlite */
-@property (nonatomic,strong,readonly)LYSqlite * sqlite;
+@property (nonatomic,strong)SGSqlite * sqlite;
+
 /** sqlite op queue */
 @property(nonatomic,strong,readonly) dispatch_queue_t safetyQueue;
 
@@ -33,14 +32,15 @@
     }
     if (self = [super init]) {
         _sqlitePath = sqlitePath;
-        _safetyQueue = dispatch_queue_create("ly_safety_sqlite_squeue", DISPATCH_QUEUE_SERIAL);
+        NSString * safeQueueId = [NSString stringWithFormat:@"SG_safety_sqlite_squeue_%p",&self];
+        _safetyQueue = dispatch_queue_create([safeQueueId UTF8String], DISPATCH_QUEUE_SERIAL);
     }
     return self;
 }
 
-- (LYSqlite *)sqlite {
+- (SGSqlite *)sqlite {
     if (!_sqlite) {
-        _sqlite = [LYSqlite slqiteWithPath:self.sqlitePath];
+        _sqlite = [SGSqlite slqiteWithPath:self.sqlitePath];
         [_sqlite openSqlite];
     }
     return _sqlite;
@@ -57,21 +57,21 @@
     });
 }
 
-- (void)inSqliteSync:(LYSqliteBlock)block {
+- (void)inSqliteSync:(SGSqliteBlock)block {
     dispatch_sync(_safetyQueue, ^{
         block(self.sqlite);
     });
 }
 
-- (void)inSqliteAsync:(LYSqliteBlock)block {
+- (void)inSqliteAsync:(SGSqliteBlock)block {
     dispatch_async(_safetyQueue, ^{
          block(self.sqlite);
     });
 }
 
-- (void)inTransactionSync:(LYTransactionBlock)block {
+- (void)inTransactionSync:(SGTransactionBlock)block {
     dispatch_sync(_safetyQueue, ^{
-        LYSqlite *sqlite = [self sqlite];
+        SGSqlite *sqlite = [self sqlite];
         [sqlite beginTransaction];
         BOOL rollBack = NO;
         block(sqlite,&rollBack);
@@ -82,9 +82,9 @@
     });
 }
 
-- (void)inTransactionAsync:(LYTransactionBlock)block {
+- (void)inTransactionAsync:(SGTransactionBlock)block {
     dispatch_async(_safetyQueue, ^{
-        LYSqlite *sqlite = [self sqlite];
+        SGSqlite *sqlite = [self sqlite];
         [sqlite beginTransaction];
         BOOL rollBack = NO;
         block(sqlite,&rollBack);
@@ -95,9 +95,9 @@
     });
 }
 
-- (void)inDeferredTransactionSync:(LYTransactionBlock)block {
+- (void)inDeferredTransactionSync:(SGTransactionBlock)block {
     dispatch_sync(_safetyQueue, ^{
-        LYSqlite *sqlite = [self sqlite];
+        SGSqlite *sqlite = [self sqlite];
         [sqlite beginDeferredTransaction];
         BOOL rollBack = NO;
         block(sqlite,&rollBack);
@@ -109,9 +109,9 @@
     });
 }
 
-- (void)inDeferredTransactionAsync:(LYTransactionBlock)block {
+- (void)inDeferredTransactionAsync:(SGTransactionBlock)block {
     dispatch_async(_safetyQueue, ^{
-        LYSqlite *sqlite = [self sqlite];
+        SGSqlite *sqlite = [self sqlite];
         [sqlite beginDeferredTransaction];
         BOOL rollBack = NO;
         block(sqlite,&rollBack);

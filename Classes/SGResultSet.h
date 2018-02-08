@@ -7,30 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SGSqlite.h"
 
-@interface SGResultSet : NSObject
+@interface SGResultSet : NSObject <SGResultSetProtocol>
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
+
 + (instancetype)resultSetWithStatement:(void *)statement;
 
-- (BOOL)next;
-
-- (void)close;
-
-- (void)reset;
-
-
-- (int)intForColumn:(NSString*)columnName;
-- (long)longForColumn:(NSString*)columnName;
-- (long long int)longLongIntForColumn:(NSString*)columnName;
-- (unsigned long long int)unsignedLongLongIntForColumn:(NSString*)columnName;
-
-- (BOOL)boolForColumn:(NSString*)columnName;
-
-- (double)doubleForColumn:(NSString*)columnName;
-
-- (NSString*)stringForColumn:(NSString*)columnName;
-- (NSDate*)dateForColumn:(NSString*)columnName;
-- (NSData*)dataForColumn:(NSString*)columnName;
 @end

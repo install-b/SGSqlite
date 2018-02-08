@@ -36,13 +36,19 @@
     return self;
 }
 
+- (void)dealloc {
+    // 关闭结果集
+    [self close];
+}
+
+
 - (BOOL)next {
     if (_pStmt) {
         int rc = sqlite3_step(_pStmt);
         
         if (SQLITE_BUSY == rc || SQLITE_LOCKED == rc) {
             
-            NSLog(@"Database busy");
+            NSLog(@"Sqliete busy or locked");
             
         }
         else if (SQLITE_DONE == rc || SQLITE_ROW == rc) {
