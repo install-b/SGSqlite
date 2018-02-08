@@ -16,6 +16,7 @@
 		A7995E46202BFEE9001A7A99 /* SGSafetySqlite.m in Sources */ = {isa = PBXBuildFile; fileRef = A7995E40202BFEE9001A7A99 /* SGSafetySqlite.m */; };
 		A7995E47202BFEE9001A7A99 /* SGResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = A7995E44202BFEE9001A7A99 /* SGResultSet.m */; };
 		A7995E48202BFEE9001A7A99 /* SGSqlite.m in Sources */ = {isa = PBXBuildFile; fileRef = A7995E45202BFEE9001A7A99 /* SGSqlite.m */; };
+		A7995E4B202C0A67001A7A99 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A7995E4A202C0A67001A7A99 /* libsqlite3.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 		A7995E43202BFEE9001A7A99 /* SGSafetySqlite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGSafetySqlite.h; sourceTree = "<group>"; };
 		A7995E44202BFEE9001A7A99 /* SGResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGResultSet.m; sourceTree = "<group>"; };
 		A7995E45202BFEE9001A7A99 /* SGSqlite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGSqlite.m; sourceTree = "<group>"; };
+		A7995E4A202C0A67001A7A99 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,6 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7995E4B202C0A67001A7A99 /* libsqlite3.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -54,6 +57,7 @@
 				A7995E3F202BFEE9001A7A99 /* Classes */,
 				A71FD6E5202BFE6D00A9D8EC /* SGSqliteDemo */,
 				A71FD6E4202BFE6D00A9D8EC /* Products */,
+				A7995E49202C0A67001A7A99 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -100,6 +104,14 @@
 				A7995E44202BFEE9001A7A99 /* SGResultSet.m */,
 			);
 			path = Classes;
+			sourceTree = "<group>";
+		};
+		A7995E49202C0A67001A7A99 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A7995E4A202C0A67001A7A99 /* libsqlite3.tbd */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

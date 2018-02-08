@@ -31,11 +31,21 @@
         return nil;
     }
     if (self = [super init]) {
+        [self createSqlitePath:sqlitePath];
         _sqlitePath = sqlitePath;
         NSString * safeQueueId = [NSString stringWithFormat:@"SG_safety_sqlite_squeue_%p",&self];
         _safetyQueue = dispatch_queue_create([safeQueueId UTF8String], DISPATCH_QUEUE_SERIAL);
     }
     return self;
+}
+- (void)createSqlitePath:(NSString *)sqlitePath {
+    // 创建文件夹
+    NSFileManager * defaultManager = [NSFileManager defaultManager] ;
+    NSString *folderPath = [sqlitePath stringByDeletingLastPathComponent];
+    if (![defaultManager fileExistsAtPath:folderPath]) {
+        [defaultManager createDirectoryAtPath:folderPath withIntermediateDirectories:YES attributes:nil error:nil];
+        NSLog(@"sqlitePath directory is not exists:\n%@",folderPath);
+    }
 }
 
 - (SGSqlite *)sqlite {

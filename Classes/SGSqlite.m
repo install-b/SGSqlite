@@ -213,10 +213,11 @@ static int sqlite_bindObject(id obj,int idx,sqlite3_stmt * pStmt) {
     va_start(args, sql);
     while (idx < queryCount) {
         obj = va_arg(args, id);
+        idx++;
         // 拼接 参数
         sqlite_bindObject(obj, idx, pStmt);
         
-        idx++;
+        
     }
     va_end(args);
 
@@ -271,10 +272,10 @@ static int sqlite_bindObject(id obj,int idx,sqlite3_stmt * pStmt) {
     while (idx < queryCount) {
         // 取值
         obj = va_arg(args, id);
-        // 拼接 参数
-        sqlite_bindObject(obj, idx, pStmt);
         // 索引值+1
         idx++;
+        // 拼接 参数
+        sqlite_bindObject(obj, idx, pStmt);
     }
     va_end(args);
     
