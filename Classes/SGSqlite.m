@@ -216,8 +216,6 @@ static int sqlite_bindObject(id obj,int idx,sqlite3_stmt * pStmt) {
         idx++;
         // 拼接 参数
         sqlite_bindObject(obj, idx, pStmt);
-        
-        
     }
     va_end(args);
 
@@ -231,7 +229,7 @@ static int sqlite_bindObject(id obj,int idx,sqlite3_stmt * pStmt) {
         return NO;
     }
 
-    rc      = sqlite3_step(pStmt);
+    rc = sqlite3_step(pStmt);
     
     if (rc != SQLITE_DONE && rc != SQLITE_OK) {
         NSLog(@"executeUpdate- SQL error:%@\nrc:%d",sql,rc);

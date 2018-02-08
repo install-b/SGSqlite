@@ -13,7 +13,7 @@
 
 
 /**
- <#Description#>
+ sqlite 基本类
  */
 @interface SGSqlite : NSObject
 - (instancetype)init NS_UNAVAILABLE;
