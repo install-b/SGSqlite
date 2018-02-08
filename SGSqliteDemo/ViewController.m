@@ -32,12 +32,13 @@
 }
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [self.sqlite inSqliteAsync:^(SGSqlite *sqlite) {
-        id rezultSet = [sqlite executeQuery:@"select * from sg_test_table where age > ?",@15];
+        SGResultSet * rezultSet = [sqlite executeQuery:@"select * from sg_test_table where age > ?",@15];
         
         while ([rezultSet next]) {
             NSString *name = [rezultSet stringForColumn:@"name"];
             NSLog(@"AGE > 15 name = %@",name);
         }
+        
         
         [rezultSet close];
     }];
